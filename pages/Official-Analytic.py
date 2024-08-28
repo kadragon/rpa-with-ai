@@ -24,8 +24,8 @@ def main():
         st.markdown(
             "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)")
 
-    st.title("💬 KNUE RPA with AI")
-    st.caption("🚀 KNUE RPA with AI powered by OpenAI")
+    st.title("💬 RPA with AI")
+    st.caption("🚀 RPA with AI powered by kadragon")
     st.subheader('공문 분석기')
 
     uploaded_file = st.file_uploader("공문을 업로드하세요 (PDF 형식)", type=("pdf"))

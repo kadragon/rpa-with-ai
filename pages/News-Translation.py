@@ -17,9 +17,9 @@ def get_openai_api_key():
     return openai_api_key
 
 
-def create_llm(api_key):
+def create_llm(api_key, temperature=0):
     try:
-        return ChatOpenAI(model_name="gpt-4o-mini", temperature=0, openai_api_key=api_key)
+        return ChatOpenAI(model_name="gpt-4o-mini", temperature=temperature, openai_api_key=api_key)
     except Exception as e:
         st.error(f"Error creating LLM: {str(e)}")
         return None
@@ -49,10 +49,7 @@ def create_translation_chain(llm):
    - 경제, 정치, 과학 등 전문 분야의 용어는 한국에서 통용되는 번역어 사용
    - 적절한 한국어 용어가 없을 경우, 원어를 병기하고 설명 추가
    
-5. 요약:
-   - 기사가 길거나 복잡한 경우, 기사를 1-2문장으로 요약하여 한국 독자들이 핵심 내용을 쉽게 파악할 수 있도록 한다.
-
-6. 핵심 키워드:
+5. 핵심 키워드:
    - 기사의 핵심 내용을 대표하는 3-5개의 키워드 추출
    - 각 키워드는 1단어로 구성하여 # 기호와 함께 나열
 
@@ -83,8 +80,8 @@ def create_translation_chain(llm):
 
 
 def main():
-    st.title("💬 KNUE RPA with AI")
-    st.caption("🚀 KNUE RPA with AI powered by OpenAI")
+    st.title("💬 RPA with AI")
+    st.caption("🚀 RPA with AI powered by kadragon")
     st.subheader('News Translation')
 
     initialize_session_state()
