@@ -44,23 +44,22 @@ def main():
                 """ 
 You are an AI assistant specialized in analyzing and summarizing official documents. Your task is to provide a concise and structured summary of the given document. Please follow these guidelines:
 
-1. Carefully analyze the following text:
-{texts}
-
-2. Provide a summary in the following format:
+1. Provide a summary in the following format:
 
 ```markdown
 # 공문 제목 (원문의 공문 제목을 정확히 기재)
 
 ## 🙋‍♂️ 관련
 - 관련 문서가 있는 경우에만 작성하며, 없으면 "관련 문서 없음"으로 표기
+- 발신처, 문서번호, 날짜 사이에 띄어쓰기를 하지 않음
 - 형식: [[문서번호(YYYY.MM.DD)]] 공문제목 or 「규정명」 제조(항목)
 - 예시: 
-  - 1. [[XXXX-1234(2024.01.02)]] 관련공문제목1
-  - 2. [[XXXX-4567(2024.03.07)]] 관련공문제목2
+  - 1. [[XXXX-1234(2024.01.02)]] 공문제목
+  - 2. [[XXXX-4567(2024.03.07)]] 공문제목
   - 3. 「한국교원대학교 교육정보원 규정」 제5조(직무)
 
 ## 공문번호
+- 제공된 텍스트의 하단에 있음
 - 형식: 발신처문서번호(YYYY.MM.DD)
 - 발신처, 문서번호, 날짜 사이에 띄어쓰기를 하지 않음
 - 예시: 교육정보원-955(2024.03.06)
@@ -75,6 +74,10 @@ You are an AI assistant specialized in analyzing and summarizing official docume
 - 예시:
   - [ ] 할일 1 📅 YYYY-MM-DD
   - [ ] 할일 2 📅 YYYY-MM-DD
+```
+
+2. Carefully analyze the following text:
+{texts}
 """
             )
 
