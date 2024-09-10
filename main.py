@@ -1,9 +1,19 @@
 import streamlit as st
+from src.components.layout import header
 
-with st.sidebar:
-    openai_api_key = st.text_input(
-        "OpenAI API Key", key="chatbot_api_key", type="password")
-    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
 
-st.title("💬 RPA with AI")
-st.caption("🚀 RPA with AI powered by kadragon")
+def main():
+    header()
+
+    st.subheader('News-Translation')
+    st.info('영문 뉴스를 번역해줍니다.')
+
+    st.subheader('Official-Correction')
+    st.info('공문을 교정, 교열 해줍니다.')
+
+    st.subheader('Prompt-Maker')
+    st.info('프롬프트를 개선해줍니다.')
+
+
+if __name__ == "__main__":
+    main()

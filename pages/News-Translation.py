@@ -1,28 +1,12 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from src.components.layout import header, get_openai_api_key
+from src.utils.llm import create_llm
 
 
 def initialize_session_state():
     if 'responses' not in st.session_state:
         st.session_state['responses'] = []
-
-
-def get_openai_api_key():
-    with st.sidebar:
-        openai_api_key = st.text_input(
-            "OpenAI API Key", key="chatbot_api_key", type="password")
-        st.markdown(
-            "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)")
-    return openai_api_key
-
-
-def create_llm(api_key, temperature=0):
-    try:
-        return ChatOpenAI(model_name="gpt-4o-mini", temperature=temperature, openai_api_key=api_key)
-    except Exception as e:
-        st.error(f"Error creating LLM: {str(e)}")
-        return None
 
 
 def create_translation_chain(llm):
@@ -76,8 +60,7 @@ def create_translation_chain(llm):
 
 
 def main():
-    st.title("💬 RPA with AI")
-    st.caption("🚀 RPA with AI powered by kadragon")
+    header()
     st.subheader('News Translation')
 
     initialize_session_state()
@@ -98,8 +81,7 @@ def main():
                 except Exception as e:
                     st.error(f"번역 중 오류 발생: {str(e)}")
 
-    for response in st.session_state['responses']:
-        st.markdown(response)
+    st.markdown('\n'.join(st.session_state['responses']))
 
 
 if __name__ == "__main__":

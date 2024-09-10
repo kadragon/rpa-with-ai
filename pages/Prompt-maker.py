@@ -1,14 +1,7 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
 from langchain.prompts.chat import ChatPromptTemplate
-
-
-def create_llm(api_key):
-    try:
-        return ChatOpenAI(model_name="gpt-4o-mini", temperature=0, openai_api_key=api_key)
-    except Exception as e:
-        st.error(f"Error creating LLM: {str(e)}")
-        return None
+from src.components.layout import header, get_openai_api_key
+from src.utils.llm import create_llm
 
 
 def make_prompt():
@@ -65,24 +58,15 @@ def make_prompt():
 
 
 def main():
-    # Streamlit UI 구성
-    with st.sidebar:
-        openai_api_key = st.text_input(
-            "OpenAI API Key", key="chatbot_api_key", type="password")
-        st.markdown(
-            "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)")
-
-    st.title("💬 RPA with AI")
-    st.caption("🚀 RPA with AI powered by kadragon")
+    header()
     st.subheader('프롬프트 생성기')
+
+    openai_api_key = get_openai_api_key()
 
     with st.form('Question'):
         task = st.text_area('목표')
         lazy_prompt = st.text_area('프롬프트')
         submitted = st.form_submit_button('보내기')
-
-    if openai_api_key == '':
-        st.warning('API Key를 입력해 주세요!')
 
     if submitted and openai_api_key:
         llm = create_llm(openai_api_key)
