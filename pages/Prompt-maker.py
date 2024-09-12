@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain.prompts.chat import ChatPromptTemplate
 from src.components.layout import header, get_openai_api_key
-from src.utils.llm import create_llm
+from src.utils.llm import initialize_llm
 
 
 def make_prompt():
@@ -69,7 +69,7 @@ def main():
         submitted = st.form_submit_button('보내기')
 
     if submitted and openai_api_key:
-        llm = create_llm(openai_api_key)
+        llm = initialize_llm(openai_api_key)
         prompt = make_prompt()
 
         chain = prompt | llm

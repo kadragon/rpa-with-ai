@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain_core.prompts import PromptTemplate
 from src.components.layout import header, get_openai_api_key
-from src.utils.llm import create_llm
+from src.utils.llm import initialize_llm
 
 
 def initialize_session_state():
@@ -71,7 +71,7 @@ def main():
         submitted = st.form_submit_button('보내기')
 
     if submitted and api_key:
-        llm = create_llm(api_key)
+        llm = initialize_llm(api_key)
         if llm:
             chain = create_translation_chain(llm)
             with st.spinner('번역 중...'):
