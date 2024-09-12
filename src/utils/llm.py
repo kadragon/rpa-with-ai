@@ -8,10 +8,6 @@ DEFAULT_MODEL_NAME = 'gpt-4o-mini'
 DEFAULT_TEMPERATURE = 0.2
 DEFAULT_STREAMING = False
 
-# 로깅 설정
-logging.basicConfig(level=logging.ERROR, filename='llm_errors.log', filemode='a',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
 
 def initialize_llm(api_key: str, model_name: str = DEFAULT_MODEL_NAME, temperature: float = DEFAULT_TEMPERATURE, streaming: bool = DEFAULT_STREAMING) -> Optional[ChatOpenAI]:
     """
@@ -32,6 +28,5 @@ def initialize_llm(api_key: str, model_name: str = DEFAULT_MODEL_NAME, temperatu
         return llm
     except Exception as e:
         # 로그 파일에 오류 기록
-        logging.error(f"LLM 초기화 중 오류 발생: {str(e)}")
-        st.error("LLM 초기화 중 문제가 발생했습니다. 자세한 내용은 로그 파일을 확인하십시오.")
+        st.error(f"LLM 초기화 중 문제가 발생했습니다. {str(e)}")
         return None
