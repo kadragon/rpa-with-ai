@@ -1,5 +1,4 @@
 import streamlit as st
-import logging
 from langchain_openai import ChatOpenAI
 from typing import Optional
 
