@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain.prompts.chat import ChatPromptTemplate
 from src.components.layout import header, get_openai_api_key
+import src.components.session as st_session
 from src.utils.llm import initialize_llm
 
 
@@ -58,8 +59,17 @@ def make_prompt():
 
 
 def main():
+    SUBHEADER = 'Prompt Maker'
+    SESSION_KEY = 'responses'
+
     header()
-    st.subheader('프롬프트 생성기')
+    st.subheader(SUBHEADER)
+    st.info('작성한 프롬프트 내용을 최적화 해줍니다.')
+
+    st_session.initialize_session_state(SESSION_KEY, [])
+
+    if st_session.check_page_change(SUBHEADER):
+        st_session.reset_session_state(SESSION_KEY, [])
 
     openai_api_key = get_openai_api_key()
 

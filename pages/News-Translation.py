@@ -1,21 +1,17 @@
 import streamlit as st
 from langchain_core.prompts import PromptTemplate
 from src.components.layout import header, get_openai_api_key
+import src.components.session as st_session
 from src.utils.llm import initialize_llm
-
-
-def initialize_session_state():
-    if 'responses' not in st.session_state:
-        st.session_state['responses'] = []
 
 
 def create_translation_chain(llm):
     prompt = PromptTemplate.from_template(
         """
-아래 지침을 따라 영어 신문 기사를 한국어로 번역해주세요:
+아래 지침을 따라 제시된 원문의 영어 신문 기사 3개 한국어로 번역해주세요:
 
 1. 형식:
-   - 제목은 ### 로 표시
+   - 각 기사별 제목은 ### 로 표시
    - 소제목이 있을 경우 #### 로 표시
    - 본문은 단락별로 구분하여 번역
    - 불필요한 빈 줄이나 원문에 없는 내용 추가 금지
@@ -38,8 +34,7 @@ def create_translation_chain(llm):
    - 각 키워드는 1단어로 구성하여 # 기호와 함께 나열
 
 결과 예시:
-```markdown
-### [한국어 제목]
+### [한국어 제목1]
 
 [번역된 본문 내용]
 
@@ -50,8 +45,6 @@ def create_translation_chain(llm):
 #### 핵심 키워드
 #키워드1 #키워드2 #키워드3 #키워드4 #키워드5
 
-```
-
 원문:
 {input}
 """
@@ -60,10 +53,17 @@ def create_translation_chain(llm):
 
 
 def main():
-    header()
-    st.subheader('News Translation')
+    SUBHEADER = 'News Translation'
+    SESSION_KEY = 'responses'
 
-    initialize_session_state()
+    header()
+    st.subheader(SUBHEADER)
+
+    st_session.initialize_session_state(SESSION_KEY, [])
+
+    if st_session.check_page_change(SUBHEADER):
+        st_session.reset_session_state(SESSION_KEY, [])
+
     api_key = get_openai_api_key()
 
     with st.form('Question'):
@@ -77,11 +77,12 @@ def main():
             with st.spinner('번역 중...'):
                 try:
                     response = chain.invoke({"input": text})
-                    st.session_state['responses'].append(response.content)
+                    st.session_state[SESSION_KEY].append(response.content)
                 except Exception as e:
                     st.error(f"번역 중 오류 발생: {str(e)}")
 
-    st.markdown('\n'.join(st.session_state['responses']))
+    st.markdown(f'```markdown\n{'\n'.join(
+        st.session_state[SESSION_KEY])}\n```')
 
 
 if __name__ == "__main__":
